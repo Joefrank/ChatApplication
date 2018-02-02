@@ -5,9 +5,9 @@
 </head>
 <body>
     <!--Add reference to the JQuery file-->
-    <script type="text/javascript" src="Scripts/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
     <!-- Add reference to the minified version of the SignarR client library -->
-    <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="scripts/jquery.signalR-2.2.2.min.js"></script>
     <!-- Add reference to the auto-generated proxy file -->
     <script src="signalr/hubs"></script>
 
@@ -46,7 +46,7 @@
                 });
             });
             //Callback function which the hub will call when it has finished processing,
-            // is attached to the proxy 
+            // is attached to the proxy
             chatProxy.client.receiveMessage = function (msgFrom, msg, senderid) {
                 if (msgFrom == "NewConnection") {
                     $("#usersCount").text(senderid);
@@ -58,7 +58,7 @@
                     $("#connID").text(msg);
                 }
                 else if (msgFrom == "RU") {
-                    var online = senderid.split('#');                    
+                    var online = senderid.split('#');
                     var length = online.length;
                     for (var i = 0; i < length; i++) {
                         $('#divUsers').append('<li>' + online[i] + '</li>');
@@ -74,7 +74,7 @@
         });
 
         function registerEvents(chatHub) {
-            try {                
+            try {
                 chatHub.server.connect($("#spnName").text(), $("#connID").text(), $("#connID").text());
             } catch (e) { alert(e.message); }
         }
@@ -82,9 +82,9 @@
 
     <div style="width: 55%; border: solid 1px Red; height: 140px">
         <p style="margin: 10px 0px 0px 10px">
-            You are connected as <b><span id="spnName"></span></b><br/>
+            You are connected as <b><span id="spnName"></span></b><br />
             Your chat ID: <b><span id="connID"></span></b>
-            <br/>
+            <br />
             Other Users Count: <b><span id="usersCount"></span></b>
         </p>
     </div>
@@ -103,6 +103,6 @@
             </div>
         </div>
     </div>
-     
+
 </body>
 </html>
