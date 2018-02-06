@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Group Chat";
+}
+
+<h2>Group Chat</h2>
+
+
+<p>
+    Welcome to my website. To Access my chatroom, click on the connect button.
+<p id="myconnection">
+</p>
+</p>
+<p id="paction">
+    <input type="button" class="alert-danger" value="Connect" id="btnConnect" />
+</p>
+<p>
+    <input type="text" placeholder="Type message" id="txtMessage" />&nbsp;
+    <input type="button" class="btn-default" value="Send Message" id="btnSendMessage" />
+</p>
+<div id="status">
+</div>
+<div id="servermessages" class="col-md-6">
+</div>
+
+
+@section PageScripts{
+    @Html.Partial("_SignalRLinks")
+}
+
+
+
+

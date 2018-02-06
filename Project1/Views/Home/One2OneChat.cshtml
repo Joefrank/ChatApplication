@@ -1,0 +1,46 @@
+﻿@model chatapp.data.Model.User
+
+@{
+    ViewBag.Title = "One To One Chat";
+}
+
+<h2>One To One Chat</h2>
+
+
+<p>
+    Welcome to our website chat. Click on the connect button to chat with an operator.  
+
+</p>
+<p id="myconnection">
+</p>
+<p id="paction">
+    <input type="button" class="alert-danger" value="Connect" id="btnConnect" />
+</p>
+<hr/>
+<p>
+    <input type="text" placeholder="Type message" id="txtMessage" />&nbsp;
+    <input type="button" class="btn-default" value="Send Message" id="btnSendMessage" />
+</p>
+<div id="status">
+</div>
+<div id="servermessages" class="col-md-6">
+</div>
+
+
+@section PageScripts{
+    <script>
+        var userid = '@(Model?.Id.ToString() ?? "")';
+        var roomid = '@(Model?.Id.ToString() ?? "")';
+    </script>
+    @Html.Partial("_SignalRLinks")
+}
+
+
+
+
+
+
+
+
+
+

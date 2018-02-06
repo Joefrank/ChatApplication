@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h1>Joe's Chat Room</h1>
+
+<p>
+    Welcome to my website!
+</p>
+
+<p>
+    Please select a ChatRoom or just enter your username to chat with us.
+</p>
+<p>
+    Pseudo: <input type="text" id="txtPseudo" /><br />
+    Room:
+    <select id="selRooms">
+        <option>--Select--</option>
+    </select>
+    <span >
+        <input type="text" id="txtRoomName"/>
+    </span>
+    <br/>
+    <button class="alert alert-success" onclick="StartChat();">Start Chat</button>
+</p>
+
+<script type="text/javascript">
+    function StartChat() {
+        var pseudo = $('#txtPseudo').val();
+        var room = $('#txtRoomName').val();
+        var selRoom = $('#selRooms').val();
+        var finalRoom = "default";
+
+        if (pseudo === "") {
+            alert("You need to specify a pseudo name!");
+            return;
+        }
+
+        if (selRoom === "") {
+            finalRoom = selRoom;
+        }
+        else if (room !== "") {
+            finalRoom = room;
+        }
+
+        if (finalRoom === "") {
+            alert("You haven't chosen any chatroom!");
+            return;
+        }
+
+        document.location.href = "/Home/One2OneChat/?pseudo=" + encodeURI(pseudo) + "&room=" + encodeURI(finalRoom);
+    }
+</script>

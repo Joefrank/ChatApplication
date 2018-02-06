@@ -1,0 +1,1 @@
+https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/working-with-groups
