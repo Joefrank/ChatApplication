@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<p>
+    Welcome to my chat app!
+</p>
+
+<p>
+    Please select a ChatRoom or just enter your username to chat with us.
+</p>
+
+<p>
+    Please select an option:<br/>
+    &nbsp; <b>Chat Wit Us</b>&nbsp; <input type="radio" name="mode" value="1" />&nbsp;&nbsp; 
+    <b>Group Chat</b>&nbsp; <input name="mode" type="radio" value="2" /> &nbsp;&nbsp;
+    <button class="btn btn-success" onclick="NavigateToOption()">Select</button>
+</p>
+@*<p>
+        Pseudo: <input type="text" id="txtPseudo" /><br />
+        Room:
+        <select id="selRooms">
+            <option>--Select--</option>
+        </select>
+        <span >
+            <input type="text" id="txtRoomName"/>
+        </span>
+        <br/>
+        <button class="alert alert-success" onclick="StartChat();">Start Chat</button>
+    </p>
+*@
+    <script type="text/javascript">
+
+        function NavigateToOption()
+        {
+            var selOption = $('input[name=mode]:checked').val();
+            var navigateUrl = '';
+
+            if (selOption == 1) {
+                navigateUrl = "/Home/One2OneChat";
+            }
+            else {
+                navigateUrl = "/Home/GroupChat";
+            }
+
+            document.location.href = navigateUrl;
+        }
+
+        //function StartChat() {
+        //    var pseudo = $('#txtPseudo').val();
+        //    var room = $('#txtRoomName').val();
+        //    var selRoom = $('#selRooms').val();
+        //    var finalRoom = "default";
+
+        //    if (pseudo === "") {
+        //        alert("You need to specify a pseudo name!");
+        //        return;
+        //    }
+
+        //    if (selRoom === "") {
+        //        finalRoom = selRoom;
+        //    }
+        //    else if (room !== "") {
+        //        finalRoom = room;
+        //    }
+
+        //    if (finalRoom === "") {
+        //        alert("You haven't chosen any chatroom!");
+        //        return;
+        //    }
+
+        //    document.location.href = "/Home/One2OneChat/?pseudo=" + encodeURI(pseudo) + "&room=" + encodeURI(finalRoom);
+        //}
+    </script>

@@ -198,6 +198,7 @@
     <Content Include="Views\Home\GroupChat.cshtml" />
     <Content Include="Views\Home\One2OneChat.cshtml" />
     <Content Include="Views\Shared\_SignalRLinks.cshtml" />
+    <Content Include="Views\Shared\_PopupModal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
