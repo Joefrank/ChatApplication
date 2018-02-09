@@ -30,7 +30,7 @@ namespace Project1.Controllers
 
         public ActionResult One2OneChat()
         {
-            return View();
+            return View("ContactChat");
         }
 
             //public ActionResult One2OneChat(string pseudo, string room)

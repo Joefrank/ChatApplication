@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Speak To Us";
+}
+
+<h1>Speak To Us</h1>
+
+@section extraTopStyles{
+    <link href="~/Content/chatpopup.css" rel="stylesheet" type="text/css" />
+ }
+
+<div class="container">
+    <p>
+        Welcome to chat! Please click the item on the bottom right to start chatting.
+    </p>
+
+    @Html.Partial("_ChatPopup") 
+</div>
+
+
+
+@section PageScripts{
+    
+    <script src="~/scripts/site.js"></script>
+    <script>
+        var useridCookieName = "userid";
+
+	    $(document).ready(function(){
+
+	        $(".left-first-section").click(function () {
+                $('.main-section').toggleClass("open-more");
+            });
+        
+    	    $(".fa-minus").click(function(){
+                $('.main-section').toggleClass("open-more");
+    	    });
+
+    	    var userNameExists = DoesCookieExist(useridCookieName);
+
+	        //if user exists then let's get details from server to display.
+    	    if (userNameExists) {
+
+    	    }
+    	    else {//just display form for username
+
+    	    }
+        });
+    </script>
+    
+    
+}

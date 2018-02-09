@@ -31,3 +31,8 @@ function checkCookie() {
         }
     }
 }
+
+function DoesCookieExist(cookieName) {
+    var cookie = getCookie(cookieName);
+    return (cookie !== "") 
+}
