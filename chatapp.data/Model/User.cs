@@ -11,6 +11,8 @@ namespace chatapp.data.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public Guid ContextId { get; set; }
+
         [StringLength(50)]
         public string Type { get; set; }
 

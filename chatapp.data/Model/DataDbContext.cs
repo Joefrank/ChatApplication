@@ -15,6 +15,7 @@ namespace chatapp.data.Model
 
         public virtual DbSet<ChatRoom> ChatRooms { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<ChatRequest> ChatRequests { get; set; }
 
         #endregion
     }

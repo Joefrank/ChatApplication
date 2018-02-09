@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ChatRequest.cs" />
     <Compile Include="Model\ChatRoom.cs" />
     <Compile Include="Model\CheckoutContextCustomInitializer.cs" />
     <Compile Include="Model\DataDbContext.cs" />

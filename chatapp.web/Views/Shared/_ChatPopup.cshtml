@@ -24,11 +24,14 @@
                     <button  class="btn">Start Chat</button>
                 </p>
             </div>
+
             <div id="chatSection" class="chat-section">
-                <ul>
+                <p id="pConnectedTo">
+                </p>
+                @*<ul>
                     <li>
                         <div class="left-chat">
-                            <img src="/demo/man01.png">
+                            <img src="/Content/images/man01.png">
                             <p>
                                 Lorem ipsum dolor sit ameeserunt.
                             </p>
@@ -37,16 +40,24 @@
                     </li>
                     <li>
                         <div class="right-chat">
-                            <img src="/demo/man02.png">
+                            <img src="/Content/images/man02.png">
                             <p>Lorem ipsum dolor sit ameeserunt.</p>
                             <span>2 min</span>
                         </div>
                     </li>
                    
-                </ul>
-            <div id="chatSection"></div>
+                </ul>*@
+            </div>
+            
+            <div id="chatIntro" class="chat-section" style="display: none">
+                <p>
+                    Please enter your username to start chatting.
+                    <input type="text" id="txtUserName" />
+                    <button class="btn btn-alert" id="btnStartChat">Start Chat</button>
+                </p>
+            </div>
+
         </div>
-    </div>
     <div class="row border-chat">
         <div class="col-md-12 col-sm-12 col-xs-12 third-section">
             <div class="text-bar">

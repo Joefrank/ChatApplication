@@ -1,13 +1,43 @@
 ﻿using System;
 using System.Linq;
 using chatapp.data.Model;
+using chatapp.services.Interfaces;
 using chatapp.services.Model;
 
 namespace chatapp.services.Implementation
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        public User CreateUser(string pseudo, string chatRoom, UserType type, string chatRoomId="")
+
+        public User FindUserByContextId(string contextId)
+        {
+            User user;
+            var userGuid = Guid.Parse(contextId);
+
+            using (var context = new DataDbContext())
+            {
+                user = context.Users.FirstOrDefault(x => x.ContextId == userGuid);
+            }
+
+            return user;
+        }
+
+        public User FindUserByContextIdAndName(string name, string contextId)
+        {
+            User user;
+            var userGuid = Guid.Parse(contextId);
+
+            using (var context = new DataDbContext())
+            {
+                user = context.Users.FirstOrDefault(x => x.ContextId == userGuid &&
+                                                         x.ChatPseudo.Equals(name,
+                                                             StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            return user;
+        }
+
+        public User CreateUser(string pseudo, string chatRoom, UserType type, Guid contextId, string chatRoomId="")
         {
             User user = null;
 
@@ -19,7 +49,8 @@ namespace chatapp.services.Implementation
                     ChatPseudo = pseudo,
                     DateCreated = DateTime.Now,
                     Email = "",
-                    Type = type.ToString()
+                    Type = type.ToString(),
+                    ContextId = contextId
                 };
 
                 context.Users.Add(user);
@@ -64,6 +95,18 @@ namespace chatapp.services.Implementation
             }
 
             return user;
+        }
+
+        public int CountUsersInChatRoom(Guid chatRoomId)
+        {
+            var count = 0;
+
+            using (var context = new DataDbContext())
+            {
+                count = context.Users.Count(x => x.RoomId == chatRoomId);
+            }
+
+            return count;
         }
     }
 }

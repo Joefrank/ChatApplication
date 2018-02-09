@@ -1,20 +1,25 @@
-﻿
+﻿@model Project1.Models.ViewModel.AgentChatVm
+
 @{
-    ViewBag.Title = "Speak To Us";
+    ViewBag.Title = "Admin Agent - Chat";
 }
 
-<h1>Speak To Us</h1>
+<h1>Welcome to Admin Chat</h1>
+
+<p>
+    You are speaking to <b>@Model.ClientName</b>
+</p>
 
 @section extraTopStyles{
     <link href="~/Content/chatpopup.css" rel="stylesheet" type="text/css" />
- }
+}
 
 <div class="container">
     <p>
-        Welcome to chat! Please click the item on the bottom right to start chatting.
+        Please click the item on the bottom right to start chatting to <b>@Model.ClientName</b>.
     </p>
 
-    @Html.Partial("_ChatPopup") 
+    @Html.Partial("_ChatPopup")
 </div>
 
 
@@ -28,6 +33,8 @@
         var useridCookieName = "userid";
         var roomidCookieName = "roomid";
 
+        var clientIdCookieName = "clientId";
+        
         $(document).ready(function() {
 
             $(".left-first-section").click(function() {
@@ -38,6 +45,9 @@
                 $('.main-section').toggleClass("open-more");
             });
 
+            //plant cookies for admin chat.
+            setCookie(clientIdCookieName, '@Model.ClientContextId', 1);
+            setCookie(roomidCookieName, '@Model.RoomId', 1);
 
             var userNameExists = DoesCookieExist(useridCookieName);
             console.log('user exists ' + userNameExists);
@@ -56,14 +66,10 @@
             var logUserToChat = function() {
 
                 try {
-
                     $.connection.hub.start().done(function() {
-
                         var username = $('#txtUserName').val();
                         $.connection.chatRoom.server.connectUserToHub(username);
-
                     });
-
                 } catch (e) {
                     console.log('Error on connecting user: ' + e.message);
                 }

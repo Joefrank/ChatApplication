@@ -49,7 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\ChatRoomService.cs" />
     <Compile Include="Implementation\UserService.cs" />
+    <Compile Include="Interfaces\IChatRoomService.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Model\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
