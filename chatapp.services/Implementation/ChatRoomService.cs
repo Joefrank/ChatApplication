@@ -51,13 +51,18 @@ namespace chatapp.services.Implementation
             return request;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="requestid">This is the room id</param>
+        /// <returns></returns>
         public ChatRequest GetChatRequest(Guid requestid)
         {
             ChatRequest request;
 
             using (var context = new DataDbContext())
             {
-                request = context.ChatRequests.FirstOrDefault(x => x.Id == requestid);
+                request = context.ChatRequests.FirstOrDefault(x => x.RoomId == requestid);
             }
 
             return request;

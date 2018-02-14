@@ -9,6 +9,7 @@ namespace chatapp.data.Model
         {
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
+            Database.SetInitializer(new CheckoutContextCustomInitializer());
         }
 
         #region Models Declaration 

@@ -37,6 +37,20 @@ namespace chatapp.services.Implementation
             return user;
         }
 
+        public User FindAgent(string name, Guid roomId)
+        {
+            User user;
+
+            using (var context = new DataDbContext())
+            {
+                user = context.Users.FirstOrDefault(x => x.ChatPseudo.Equals(name, StringComparison.CurrentCultureIgnoreCase)
+                    && x.Type.Equals(UserType.One2OneAdmin.ToString())
+                    && x.RoomId.Value.Equals(roomId));
+            }
+
+            return user;
+        }
+
         public User CreateUser(string pseudo, string chatRoom, UserType type, Guid contextId, string chatRoomId="")
         {
             User user = null;
@@ -84,6 +98,31 @@ namespace chatapp.services.Implementation
 
         }
 
+        public User CreateAgent(string pseudo, UserType type, Guid contextId, Guid roomId, Guid requestId)
+        {
+            User user = null;
+
+            using (var context = new DataDbContext())
+            {
+                ChatRoom room = null;
+                user = new User
+                {
+                    ChatPseudo = pseudo,
+                    DateCreated = DateTime.Now,
+                    Type = type.ToString(),
+                    ContextId = contextId,
+                    RoomId = roomId,
+                    RespondingToRequestId = requestId
+                };
+
+                context.Users.Add(user);
+                context.SaveChanges();}
+            //add cookies for userid and roomid
+
+            return user;
+
+        }
+
         public User GetUser(string userid)
         {
             User user;
@@ -92,6 +131,18 @@ namespace chatapp.services.Implementation
             {
                 var tempId = new Guid(userid);
                 user = context.Users.FirstOrDefault(x => x.Id.Equals(tempId));
+            }
+
+            return user;
+        }
+
+        public User GetUser(Guid userid)
+        {
+            User user;
+
+            using (var context = new DataDbContext())
+            {
+                user = context.Users.FirstOrDefault(x => x.Id.Equals(userid));
             }
 
             return user;

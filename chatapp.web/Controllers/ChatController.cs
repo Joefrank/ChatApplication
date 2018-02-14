@@ -49,7 +49,8 @@ namespace Project1.Controllers
             {
                 RoomId = request.RoomId.ToString(),
                 ClientContextId = request.CreatorId.ToString(), 
-                ClientName = request.UserName
+                ClientName = request.UserName,
+                RequestId = request.Id.ToString()
             }; 
             
             return View("AgentChatRequest", model);

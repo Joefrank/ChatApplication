@@ -24,6 +24,8 @@ namespace chatapp.data.Model
        
         public Guid? RoomId { get; set; }
 
+        public Guid? RespondingToRequestId { get; set; }
+
         public DateTime DateCreated { get; set; }
        
     }

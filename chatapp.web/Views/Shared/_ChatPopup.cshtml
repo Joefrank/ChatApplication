@@ -21,34 +21,17 @@
                 </p>
                 <p>
                     <input type="text" id="txtUsername" />
-                    <button  class="btn">Start Chat</button>
+                    <button class="btn">Start Chat</button>
                 </p>
             </div>
 
             <div id="chatSection" class="chat-section">
                 <p id="pConnectedTo">
                 </p>
-                @*<ul>
-                    <li>
-                        <div class="left-chat">
-                            <img src="/Content/images/man01.png">
-                            <p>
-                                Lorem ipsum dolor sit ameeserunt.
-                            </p>
-                            <span>2 min</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="right-chat">
-                            <img src="/Content/images/man02.png">
-                            <p>Lorem ipsum dolor sit ameeserunt.</p>
-                            <span>2 min</span>
-                        </div>
-                    </li>
-                   
-                </ul>*@
+                <ul id="ulMessages" style="display: none;">
+                </ul>
             </div>
-            
+
             <div id="chatIntro" class="chat-section" style="display: none">
                 <p>
                     Please enter your username to start chatting.
@@ -58,14 +41,15 @@
             </div>
 
         </div>
-    <div class="row border-chat">
-        <div class="col-md-12 col-sm-12 col-xs-12 third-section">
-            <div class="text-bar">
-                <input type="text" placeholder="Write messege"><a href="#"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        <div class="row border-chat">
+            <div class="col-md-12 col-sm-12 col-xs-12 third-section">
+                <div class="text-bar">
+                    <input type="text" id="txtMessage" placeholder="Write messege">
+                    <a href="#" id="aSendMessage"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 

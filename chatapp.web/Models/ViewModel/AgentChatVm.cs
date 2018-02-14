@@ -13,5 +13,7 @@ namespace Project1.Models.ViewModel
         public string RoomId { get; set; }
 
         public User User { get; set; }
+
+        public string RequestId { get; set; }
     }
 }

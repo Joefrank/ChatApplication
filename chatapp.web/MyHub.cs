@@ -2,6 +2,7 @@
 using Microsoft.AspNet.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Threading.Tasks;
 using chatapp.data.Model;
 using chatapp.services.Implementation;
@@ -78,30 +79,66 @@ namespace Project1
             }
         }
 
-        public void connectUserToAgent(string guid, string username)
+        [HubMethodName("connectAgentToHub")]
+        public void ConnectAgentToHub(string agentname, Guid roomId, Guid requestId)
+        {
+            var contextId = Context.ConnectionId;
+
+            //check that username is not empty
+            if (string.IsNullOrEmpty(agentname))
+            {
+                Clients.Caller.handleServerError(1, "You need to provide a pseudo in order to enter the chatroom.");
+                return;
+            }
+
+            try
+            {
+                //check if this user exists
+                var user = UserService.FindAgent(agentname, roomId);
+
+                //if user is null, create new user and his unique chatroom
+                if (user == null)
+                {
+                    user = UserService.CreateAgent(agentname, UserType.One2OneAdmin, new Guid(contextId), roomId, requestId);
+                    Clients.Caller.receiveConnectionDetails(user.Id);
+                }
+                else
+                {
+                    //get previous messages (this case should normally not happen)
+                }
+            }
+            catch (Exception d)
+            {
+                //log here.
+                Clients.Caller.handleServerError(1, "Sorry an error occured.");
+
+            }
+        }
+
+        [HubMethodName("requestAgentConnection")]
+        public void RequestAgentConnection(string guid, string username)
         {
             var contextId = Context.ConnectionId;
             var user = UserService.FindUserByContextId(contextId);
 
-            var url = "~/Chat/JoinRequestRoom/" + user.RoomId;
+            var url = ConfigurationManager.AppSettings["BaseUrl"] + "/Chat/JoinRequestRoom/" + user.RoomId;
             var roomId = user.RoomId.HasValue ? user.RoomId.Value : Guid.Empty;
 
             //text or email agent for them to respond.
             ChatRoomService.CreateChatRequest(user.ContextId, roomId, user.ChatPseudo, url);
 
         }
-
-        [HubMethodName("publish")]
-        public void Announce(string message)
+        [HubMethodName("announceAgentToClients")]
+        public void AnnounceAgentToClients(Guid userid)
         {
-            if (message.StartsWith("¬¬NEW_CONNECTION¬¬"))
-            {
-                var arr = message.Split('¦');
-                Clients.All.DisplayWelcomeMessage("<b>" + arr[1] + "</b> Joined chat at " + DateTime.Now.ToString("dd MMM yyyy @ hh:mm"));
-                
-                return;
-            }
-            Clients.All.DisplayClientMessage("<br/>" + message);
+            var user = UserService.GetUser(userid);
+            Clients.AllExcept(user.ContextId.ToString()).acknowledgeAgentConnection(user.ChatPseudo);
+        }
+
+        [HubMethodName("broadcastMessage")]
+        public void BroadcastMessage(string message, string sender)
+        {
+            Clients.All.displayClientMessage(message, sender);
         }
 
        

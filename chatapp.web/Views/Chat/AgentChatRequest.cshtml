@@ -16,7 +16,7 @@
 
 <div class="container">
     <p>
-        Please click the item on the bottom right to start chatting to <b>@Model.ClientName</b>.
+        Please click the chat window at the bottom right of the screen and enter your chat name to start chatting to <b>@Model.ClientName</b>.
     </p>
 
     @Html.Partial("_ChatPopup")
@@ -31,10 +31,15 @@
 
     <script>
         var useridCookieName = "userid";
+        var agentIdCookieName = "agentid";
         var roomidCookieName = "roomid";
-
         var clientIdCookieName = "clientId";
-        
+        var messagesCount = 0;
+
+        var chatRoomId = '@Model.RoomId';
+        var requestId = '@Model.RequestId';
+        var clientName = escape("@Model.ClientName");
+
         $(document).ready(function() {
 
             $(".left-first-section").click(function() {
@@ -47,10 +52,9 @@
 
             //plant cookies for admin chat.
             setCookie(clientIdCookieName, '@Model.ClientContextId', 1);
-            setCookie(roomidCookieName, '@Model.RoomId', 1);
+            setCookie(roomidCookieName, chatRoomId, 1);
 
-            var userNameExists = DoesCookieExist(useridCookieName);
-            console.log('user exists ' + userNameExists);
+            var userNameExists = DoesCookieExist(agentIdCookieName);
 
             //if user exists then let's get details from server to display.
             if (userNameExists) {
@@ -63,12 +67,21 @@
             //Get proxy instance using the auto-generated proxy class
             var chatProxy = $.connection.chatRoom;
 
-            var logUserToChat = function() {
+            //function connects an agent who has been invited to chat room to hub
+            var logAgentToChat = function() {
 
                 try {
                     $.connection.hub.start().done(function() {
                         var username = $('#txtUserName').val();
-                        $.connection.chatRoom.server.connectUserToHub(username);
+
+                        $('#aSendMessage').click(function () {
+                            console.log('dfsfdf');
+                            var message = $('#txtMessage').val();
+                            console.log(message);
+                            $.connection.chatRoom.server.broadcastMessage(message, username);
+                        });
+
+                        $.connection.chatRoom.server.connectAgentToHub(username, chatRoomId, requestId);
                     });
                 } catch (e) {
                     console.log('Error on connecting user: ' + e.message);
@@ -76,21 +89,37 @@
             };
 
             //receive connection details and store them into cookies.
-            chatProxy.client.receiveConnectionDetails = function (userId, userRoomId) {
+            chatProxy.client.receiveConnectionDetails = function (userId) {
                 var username = $('#txtUserName').val();
-                setCookie(useridCookieName, userId, 1);
-                setCookie(roomidCookieName, userRoomId, 1);
+                setCookie(agentIdCookieName, userId, 1);
+
                 $('#chatIntro').hide();
                 $('#chatSection').show();
-                $('#pConnectedTo').html("Welcome " + username + "<br/> We are trying to connect you to an agent...");
-                chatProxy.server.connectUserToAgent(userId, username);
+                $('#pConnectedTo').html("You will now be connected to " + clientName);
+
+                chatProxy.server.announceAgentToClients(userId);
             }
 
             chatProxy.client.handleServerError = function (errorCode, message) {
                 alert('An error occured: ' + message);
             }
 
-            $('#btnStartChat').on("click", logUserToChat);
+            chatProxy.client.displayClientMessage = function (message, sender) {
+                $('#ulMessages').show();
+
+                var liClass = (messagesCount % 2 === 0) ? "left-chat" : "right-chat";
+                var imgSrc = (messagesCount % 2 === 0) ? "/Content/images/man01.png" : "/Content/images/man02.png";
+
+                $('#ulMessages').append('<li><div class="' +
+                    liClass +
+                    '"><img src="' +
+                    imgSrc +
+                    '"><p>' +
+                    message +
+                    '</p><span>' + sender + ' : 2 min</span></div></li>');
+            }
+
+            $('#btnStartChat').on("click", logAgentToChat);
 
         });
     </script>

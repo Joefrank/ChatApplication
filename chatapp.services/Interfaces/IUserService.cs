@@ -14,10 +14,16 @@ namespace chatapp.services.Interfaces
 
         User GetUser(string userid);
 
+        User GetUser(Guid userid);
+
         int CountUsersInChatRoom(Guid chatRoomId);
 
         User FindUserByContextIdAndName(string name, string contextId);
 
         User FindUserByContextId(string contextId);
+
+        User FindAgent(string name, Guid roomId);
+
+        User CreateAgent(string pseudo, UserType type, Guid contextId, Guid roomId, Guid requestId);
     }
 }

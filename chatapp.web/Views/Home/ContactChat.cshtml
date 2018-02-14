@@ -27,6 +27,7 @@
     <script>
         var useridCookieName = "userid";
         var roomidCookieName = "roomid";
+        var messagesCount = 0;
 
         $(document).ready(function() {
 
@@ -56,12 +57,20 @@
             var logUserToChat = function() {
 
                 try {
+                    var username = $('#txtUserName').val();
+                    $.connection.hub.start().done(function () {
+                        console.log('dfsfdf');
+                        $('#aSendMessage').click(function () {
+                            console.log('dfsfdf');
+                            var message = $('#txtMessage').val();
+                            console.log(message);
+                            $.connection.chatRoom.server.broadcastMessage(message, username);
+                        });
 
-                    $.connection.hub.start().done(function() {
-
-                        var username = $('#txtUserName').val();
+                        
                         $.connection.chatRoom.server.connectUserToHub(username);
 
+                       
                     });
 
                 } catch (e) {
@@ -70,18 +79,37 @@
             };
 
             //receive connection details and store them into cookies.
-            chatProxy.client.receiveConnectionDetails = function (userId, userRoomId) {
+            chatProxy.client.receiveConnectionDetails = function(userId, userRoomId) {
                 var username = $('#txtUserName').val();
                 setCookie(useridCookieName, userId, 1);
                 setCookie(roomidCookieName, userRoomId, 1);
                 $('#chatIntro').hide();
                 $('#chatSection').show();
                 $('#pConnectedTo').html("Welcome " + username + "<br/> We are trying to connect you to an agent...");
-                chatProxy.server.connectUserToAgent(userId, username);
+                chatProxy.server.requestAgentConnection(userId, username);
             }
 
-            chatProxy.client.handleServerError = function (errorCode, message) {
+            chatProxy.client.acknowledgeAgentConnection = function(agentName) {
+                $('#pConnectedTo').html("You are now connected to " + agentName);
+            }
+
+            chatProxy.client.handleServerError = function(errorCode, message) {
                 alert('An error occured: ' + message);
+            }
+
+            chatProxy.client.displayClientMessage = function(message, sender) {
+                $('#ulMessages').show();
+
+                var liClass = (messagesCount % 2 === 0) ? "left-chat" : "right-chat";
+                var imgSrc = (messagesCount % 2 === 0) ? "/Content/images/man01.png" : "/Content/images/man02.png";
+
+                $('#ulMessages').append('<li><div class="' +
+                    liClass +
+                    '"><img src="' +
+                    imgSrc +
+                    '"><p>' +
+                    message +
+                    '</p><span>' + sender + ' : 2 min</span></div></li>');
             }
 
             $('#btnStartChat').on("click", logUserToChat);
